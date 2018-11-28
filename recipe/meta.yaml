@@ -1,0 +1,52 @@
+{% set name = "py2app" %}
+{% set version = "0.18" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 1daaaea4dccad8fab25eec7edda81a52906dd657ad39b493ae3174498cf983c1
+
+build:
+  noarch: python
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record record.txt
+
+requirements:
+  host:
+    - altgraph >=0.16
+    - macholib >=1.11
+    - modulegraph >=0.17
+    - python
+    - setuptools
+  run:
+    - altgraph >=0.16
+    - macholib >=1.11
+    - modulegraph >=0.17
+    - python
+    - setuptools
+
+test:
+  imports:
+    - py2app
+    - py2app.apptemplate
+    - py2app.bootstrap
+    - py2app.bundletemplate
+    - py2app.converters
+    - py2app.recipes
+    - py2app.recipes.PIL
+
+about:
+  home: http://bitbucket.org/ronaldoussoren/py2app
+  license: MIT
+  license_family: MIT
+  license_file:
+  summary: Create standalone Mac OS X applications with Python
+  doc_url: https://py2app.readthedocs.io/en/latest/
+  dev_url: http://bitbucket.org/ronaldoussoren/py2app
+
+extra:
+  recipe-maintainers:
+    - bkpoon
