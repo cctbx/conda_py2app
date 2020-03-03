@@ -1,5 +1,5 @@
 {% set name = "py2app" %}
-{% set version = "0.18" %}
+{% set version = "0.21" %}
 
 package:
   name: "{{ name|lower }}"
@@ -7,18 +7,18 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 1daaaea4dccad8fab25eec7edda81a52906dd657ad39b493ae3174498cf983c1
+  sha256: 4516dfb01a0bf560ca4918e1e0e38eb4fcc76c9c2f527456e022310a80d52dc8
 
 build:
   noarch: python
   number: 0
-  script: python setup.py install --single-version-externally-managed --record record.txt
+  entry_points:
+    - py2applet = py2app.script_py2applet:main
+  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vvv"
 
 requirements:
   host:
-    - altgraph >=0.16
-    - macholib >=1.11
-    - modulegraph >=0.17
+    - pip
     - python
     - setuptools
   run:
@@ -43,7 +43,12 @@ about:
   license: MIT
   license_family: MIT
   license_file:
-  summary: Create standalone Mac OS X applications with Python
+  summary: |
+    py2app is a Python setuptools command which will allow you to make
+    standalone Mac OS X application bundles and plugins from Python scripts.
+    py2app is similar in purpose and design to py2exe for Windows.
+    py2app must be used on OSX to build applications, it cannot create Mac
+    applications on other platforms.
   doc_url: https://py2app.readthedocs.io/en/latest/
   dev_url: http://bitbucket.org/ronaldoussoren/py2app
 
